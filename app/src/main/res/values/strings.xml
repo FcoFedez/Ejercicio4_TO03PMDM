@@ -14,5 +14,6 @@
     <string name="BotonLlamarTlf">Llamar Tlf</string>
     <string name="BotonBorrarBD">Borrar Base Datos</string>
     <string name="title_activity_consulta">Consulta</string>
+    <string name="title_activity_contactos_modificacion">ContactosModificacion</string>
 
 </resources>

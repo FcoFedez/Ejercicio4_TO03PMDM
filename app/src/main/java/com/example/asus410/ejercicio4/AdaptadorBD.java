@@ -119,6 +119,36 @@ public class AdaptadorBD {
         return mCursor;
     }
 
+    //consulta de un contacto por 'nombre' (clave primaria)
+    public Cursor getContactoNombre(String nombre) throws SQLException {
+
+        SQLiteDatabase db = BDHelper.getReadableDatabase();
+
+            String[] projection = {
+                    KEY_ROWID,
+                    KEY_NOMBRE,
+                    KEY_TELEFONO
+            };
+
+            String selection = KEY_NOMBRE + " = ?";
+            String[] selectionArgs = {nombre};
+
+
+            Cursor cursor = db.query(
+                    DATABASE_TABLE,                     // The table to query
+                    projection,                               // The columns to return
+                    selection,                                // The columns for the WHERE clause
+                    selectionArgs,                            // The values for the WHERE clause
+                    null,                                     // don't group the rows
+                    null,                                     // don't filter by row groups
+                    null                                 // The sort order
+            );
+            if (cursor != null)
+                cursor.moveToFirst();
+            return cursor;
+
+    }
+
     //-- MODIFICAR
     // actualiza los datos del contacto identificado por numero, con los nuevos valores
     // pasados como parámetros
@@ -216,6 +246,31 @@ public class AdaptadorBD {
         cursor.close();
 
         return listaContactos;
+    }
+
+    public List<String> getNombresLista(){
+        List<String> lista = new ArrayList<String>();
+
+        Cursor cursor = this.getTodosContactos();
+
+        //se posiciona al principio del cursor
+        cursor.moveToFirst();
+
+        // mientras hay datos en el cursor
+        // isAfterLast() Devuelve si el cursor está apuntando
+        // a la posición después de la última fila.
+        while (!cursor.isAfterLast()) {
+            //genera un contacto
+            Contactos contacto = cursorToContactos(cursor);
+            //añade un contacto a la lista mediante su método add()
+            lista.add(contacto.getNombre());
+            //avanza al siguiente
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+
+      return lista;
     }
 
     //genera un contacto a partir de un objeto Cursor

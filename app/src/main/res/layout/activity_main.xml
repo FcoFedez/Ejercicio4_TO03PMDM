@@ -44,12 +44,14 @@
         android:id="@+id/btnEliminarCto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="clikEliminarContacto"
         android:text="ELIMINAR CONTACTOS" />
 
     <Button
         android:id="@+id/btnModificar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="clikModificaciones"
         android:text="MODIFICAR CONTACTO" />
 
 </LinearLayout>

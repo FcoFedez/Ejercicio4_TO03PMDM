@@ -19,7 +19,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".Consulta" />
-        <activity android:name=".AddContactos"></activity>
+        <activity android:name=".AddContactos" />
+        <activity android:name=".ListaContactos" />
+        <activity android:name=".Modificaciones"></activity>
     </application>
 
 </manifest>

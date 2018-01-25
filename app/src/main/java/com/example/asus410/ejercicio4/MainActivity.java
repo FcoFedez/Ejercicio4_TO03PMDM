@@ -1,7 +1,5 @@
 package com.example.asus410.ejercicio4;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
@@ -12,22 +10,29 @@ import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Bundle bundle;
+    private Intent IntentConsulta, IntentEliminarContacto;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final Button botonAdd = (Button) findViewById(R.id.btnAdd);
         final Button botonConsulta = (Button) findViewById(R.id.btnConsulta);
+        final Button botonConsultaNombre = (Button) findViewById(R.id.btnConsultaNombre);
 
+        bundle = new Bundle();
 
-
-        final Intent IntentConsulta = new Intent(this, Consulta.class);
+        IntentConsulta = new Intent(this, Consulta.class);
         final Intent IntentAdd = new Intent(this, AddContactos.class);
+        IntentEliminarContacto = new Intent(this,ListaContactos.class);
+
 
 
         //evento onClick botón 'Añadir contactos'
         botonAdd.setOnClickListener(new ImageButton.OnClickListener() {
             public void onClick(View v) {
+
                 startActivity(IntentAdd);
             }
         });
@@ -35,6 +40,16 @@ public class MainActivity extends AppCompatActivity {
         //evento onClick botón 'Consultar contactos'
         botonConsulta.setOnClickListener(new ImageButton.OnClickListener() {
             public void onClick(View v) {
+                bundle.putInt("CLAVE",0);
+                IntentConsulta.putExtras(bundle);
+                startActivity(IntentConsulta);
+            }
+        });
+
+        botonConsultaNombre.setOnClickListener(new ImageButton.OnClickListener() {
+            public void onClick(View v) {
+                bundle.putInt("CLAVE",1);
+                IntentConsulta.putExtras(bundle);
                 startActivity(IntentConsulta);
             }
         });
@@ -44,9 +59,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void clickConsultaNombre(View v){
+    protected void clickConsultaNombre(View v){
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        bundle.putInt("CLAVE",1);
+        IntentConsulta.putExtras(bundle);
+
+        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("Consulta Contactos");
 
@@ -64,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+        alertDialog.show();*/
     }
 
     public int recorre(String name){
@@ -83,5 +101,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return 0;
+    }
+
+    public void clikModificaciones(View v){
+        bundle.putInt("CODIGO",0);
+        IntentEliminarContacto.putExtras(bundle);
+        startActivity(IntentEliminarContacto);
+    }
+
+    public void clikEliminarContacto(View v){
+        bundle.putInt("CODIGO",1);
+        IntentEliminarContacto.putExtras(bundle);
+        startActivity(IntentEliminarContacto);
     }
 }
