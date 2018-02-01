@@ -62,9 +62,10 @@ public class Consulta extends AppCompatActivity {
             public void onClick(View v) {
 
                 String tlfS = tlf.getText().toString();
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"
-                        + tlfS));
-                startActivity(intent);
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+tlfS));
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
             }
         });
 

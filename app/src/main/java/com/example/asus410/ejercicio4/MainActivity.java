@@ -1,5 +1,8 @@
 package com.example.asus410.ejercicio4;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,7 +59,30 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void clickBorrar(View v) {
+    public void clickBorrar(View v) {
+
+        final Context context = v.getContext();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("BORRADO BASE DE DATOS");
+
+        builder.setMessage("¿Esta seguro que desea borrar la base de datos?")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                       context.deleteDatabase ("dbagenda");
+                        Toast.makeText(context,"Se ha borrado la base de datos dbagenda",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Toast.makeText(context,"Se ha cancelado el borrado",Toast.LENGTH_SHORT).show();
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
 
     }
 
@@ -64,43 +91,6 @@ public class MainActivity extends AppCompatActivity {
         bundle.putInt("CLAVE",1);
         IntentConsulta.putExtras(bundle);
 
-        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setTitle("Consulta Contactos");
-
-        builder.setMessage("Introduce el nombre")
-                .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // TODO: handle the OK
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();*/
-    }
-
-    public int recorre(String name){
-        AdaptadorBD db = new AdaptadorBD(this);
-
-        // abre la base de datos
-        db.open();
-
-        //obtiene todos los contactos de la BD
-        Cursor cursor = db.getTodosContactos();
-
-        while (cursor.moveToNext()){
-            String nombre = cursor.getString(1);
-            if (nombre.equalsIgnoreCase(name)){
-                return cursor.getInt(0);
-            }
-        }
-        return 0;
     }
 
     public void clikModificaciones(View v){

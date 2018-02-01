@@ -32,8 +32,6 @@ public class ListaContactos extends Activity {
         db.open();
         //lista = db.getNombresLista();
 
-
-
         lista = new ArrayList(db.getAllContactos());
         array = new Contactos[lista.size()];
         String[] aux = new String[lista.size()];
@@ -46,7 +44,6 @@ public class ListaContactos extends Activity {
         }
         db.close();
 
-
         final ListAdapter adaptador = new ArrayAdapter<String>(
                 this,android.R.layout.simple_expandable_list_item_1,aux
         );
@@ -57,8 +54,6 @@ public class ListaContactos extends Activity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                //String t = adapterView.toString();
 
                 String t= array[i].getNombre();
 
@@ -87,11 +82,12 @@ public class ListaContactos extends Activity {
     }
 
     public void modificaContacto(View view, int pos){
+        Bundle b = new Bundle();
         Intent i = new Intent(view.getContext(),Modificaciones.class);
-        bundle.putLong("ID",array[pos].getNumero());
-        bundle.putString("NOMBRE",array[pos].getNombre());
-        bundle.putString("TELEFONO",array[pos].getTelefono());
-        i.putExtras(bundle);
+        b.putLong("ID",array[pos].getNumero());
+        b.putString("NOMBRE",array[pos].getNombre());
+        b.putString("TELEFONO",array[pos].getTelefono());
+        i.putExtras(b);
         startActivity(i);
         finish();
     }
